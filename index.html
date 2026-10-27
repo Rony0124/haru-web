@@ -120,6 +120,10 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:8px
 .mboard .lbl{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em}
 .mboard .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .mboard .v.money{color:var(--money)}
+.scope-chips button{padding:8px 16px}
+.scope-chips .num{opacity:.6;margin-left:2px}
+.scope-hint{margin-top:-14px}
+.scope-tag{font-size:11px;font-weight:600;padding:1px 6px;border-radius:5px;background:var(--surface);color:var(--muted);margin-left:2px}
 .seg{display:grid;grid-template-columns:1fr 1fr;background:var(--chip);border-radius:12px;padding:4px;gap:4px}
 .seg button{padding:10px 0;border-radius:9px;font-weight:700;font-size:15px;color:var(--muted)}
 .seg button[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.08)}
@@ -308,10 +312,10 @@ function seed(){
   const a1=uid(),a2=uid(),a3=uid();
   const f=[
     {id:uid(),name:'월세',amount:550000,day:25,acc:a1,ex:1},
-    {id:uid(),name:'휴대폰 요금',amount:69000,day:today.getDate(),acc:a2,ex:1},
+    {id:uid(),name:'휴대폰 요금',amount:69000,day:today.getDate(),acc:a2,scope:'개인',ex:1},
     {id:uid(),name:'실손보험',amount:89000,day:Math.min(today.getDate()+1,28),acc:a2,ex:1},
     {id:uid(),name:'적금',amount:300000,day:12,acc:a1,ex:1},
-    {id:uid(),name:'OTT 구독',amount:17000,day:3,acc:a3,ex:1}
+    {id:uid(),name:'OTT 구독',amount:17000,day:3,acc:a3,scope:'개인',ex:1}
   ];
   const paid={};
   f.forEach(x=>{if(x.day<today.getDate())paid[ym+':'+x.id]=1});
@@ -347,7 +351,7 @@ function migrate(s){
   }
   if(s.v!==2)return null;
   s.tasks=s.tasks||[];s.recs=s.recs||[];s.skips=s.skips||{};s.accounts=s.accounts||[];
-  s.fixed=s.fixed||[];s.spend=s.spend||[];s.paid=s.paid||{};s.pays=s.pays||[];s.goal=s.goal||50;s.updatedAt=s.updatedAt||0;
+  s.fixed=s.fixed||[];s.fixed.forEach(f=>{if(!f.scope)f.scope='공동'});s.spend=s.spend||[];s.paid=s.paid||{};s.pays=s.pays||[];s.goal=s.goal||50;s.updatedAt=s.updatedAt||0;
   // 1년 넘은 완료 할일은 정리
   const cut=ymd(addD(today,-400));
   s.tasks=s.tasks.filter(t=>!(t.done&&t.date<cut));
@@ -421,9 +425,9 @@ function occ(f){ // 아직 확인 안 한 가장 이른 출금 회차
   return {date:d,key:ymd(d).slice(0,7)+':'+f.id,d:diffD(d,today)};
 }
 // [from, to) 사이에 빠질 출금 (확인 안 한 것만). withOverdue면 이번 달에 이미 지났는데 확인 안 한 것도 포함
-function dueBetween(from,to,withOverdue){
+function dueBetween(from,to,withOverdue,fixedList){
   const out=[];const y=today.getFullYear(),m=today.getMonth();
-  state.fixed.forEach(f=>{
+  (fixedList||state.fixed).forEach(f=>{
     for(let k=0;k<4;k++){const dt=new Date(y,m+k,1);const d=dueIn(f,dt.getFullYear(),dt.getMonth());
       const key=ymd(d).slice(0,7)+':'+f.id; if(state.paid[key])continue;
       if((d>=from&&d<to)||(withOverdue&&k===0&&d<today))out.push({f,date:d,key});}
@@ -500,7 +504,7 @@ function alertsView(){
   payEvents().filter(e=>diffD(e.date,today)===0).forEach(e=>out.push(`<div class="alert pay"><span class="tag">월급날</span><span class="grow"><b>${esc(e.p.name)}</b>${e.p.amount?' '+won(e.p.amount):''}${e.p.acc?' → '+esc(accName(e.p.acc)):''}</span></div>`));
   state.fixed.map(f=>({f,o:occ(f)})).filter(x=>x.o.d<=1).sort((a,b)=>a.o.d-b.o.d).forEach(({f,o})=>{
     const lab=o.d<0?'확인 필요':o.d===0?'오늘 출금':'내일 출금';
-    out.push(`<div class="alert${o.d<0?' warn':''}"><span class="tag">${lab}</span><span class="grow"><b>${esc(f.name)}</b> ${won(f.amount)} · ${esc(accName(f.acc))}</span></div>`)});
+    out.push(`<div class="alert${o.d<0?' warn':''}"><span class="tag">${lab}</span><span class="grow"><b>${esc(f.name)}</b> ${won(f.amount)} · ${esc(accName(f.acc))} <span class="scope-tag">${f.scope||'공동'}</span></span></div>`)});
   return out.length?`<div class="alerts">${out.join('')}</div>`:'';
 }
 
@@ -508,7 +512,9 @@ function alertsView(){
 const CATS=['식비','카페','교통','생활','쇼핑','의료','경조사','기타'];
 const CAT_COLOR={'식비':'--accent','카페':'--cat-brown','교통':'--cat-blue','생활':'--money','쇼핑':'--cat-pink','의료':'--danger','경조사':'--cat-purple','기타':'--muted','고정지출':'--cat-slate'};
 const catVar=c=>`var(${CAT_COLOR[c]||'--muted'})`;
-const WHO=['나','와이프'];
+const WHO=['나','와이프','공동'];
+const SCOPES=['공동','개인'];
+let fixScope='공동';
 let sub='book', bookMonth=null;
 function moneyView(){
   return `<div class="seg" role="tablist" aria-label="가계 화면">
@@ -551,16 +557,19 @@ function bookView(){
   return h;
 }
 function fixedView(){
-  const total=state.fixed.reduce((s,f)=>s+f.amount,0);
+  const FX=state.fixed.filter(f=>(f.scope||'공동')===fixScope);
+  const total=FX.reduce((s,f)=>s+f.amount,0);
   const ym=ymd(today).slice(0,7);
-  const paidAmt=state.fixed.filter(f=>state.paid[ym+':'+f.id]).reduce((s,f)=>s+f.amount,0);
-  let h=`<section class="mboard"><div><span class="lbl">월 고정지출</span><span class="v">${won(total)}</span></div>
+  const paidAmt=FX.filter(f=>state.paid[ym+':'+f.id]).reduce((s,f)=>s+f.amount,0);
+  let h=`<div class="chips scope-chips">${SCOPES.map(sc=>`<button data-act="scope" data-v="${sc}" aria-pressed="${sc===fixScope}">${sc} <span class="num">${state.fixed.filter(f=>(f.scope||'공동')===sc).length}</span></button>`).join('')}</div>`;
+  h+=`<p class="hint scope-hint">${fixScope==='공동'?'월세, 대출 이자처럼 함께 내는 고정지출':'내가 따로 관리하는 개인 고정지출'}</p>`;
+  h+=`<section class="mboard"><div><span class="lbl">${fixScope} 월 고정지출</span><span class="v">${won(total)}</span></div>
     <div><span class="lbl">이번 달 출금됨</span><span class="v">${won(paidAmt)}</span></div>
     <div><span class="lbl">이번 달 남음</span><span class="v money">${won(total-paidAmt)}</span></div></section>`;
   h+=alertsView();
 
   // 출금 일정
-  const occs=state.fixed.map(f=>({f,o:occ(f)})).sort((a,b)=>a.o.date-b.o.date);
+  const occs=FX.map(f=>({f,o:occ(f)})).sort((a,b)=>a.o.date-b.o.date);
   h+=`<section class="day"><div class="sec-h"><h2>출금 일정</h2><span>빠져나가면 '출금 확인' → 가계부에 기록</span></div><div class="list">`;
   h+=occs.length?occs.map(({f,o})=>{
     const cls=o.d<0?'over':o.d===0?'today':'';
@@ -569,18 +578,18 @@ function fixedView(){
       <button class="body" data-act="editFixed"><div class="t">${esc(f.name)}</div><div class="m">${esc(accName(f.acc))} · 매월 ${f.day}일</div></button>
       <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px"><span class="amt">${won(f.amount)}</span>
       ${o.d<=3?`<button class="paybtn" data-act="pay" data-key="${o.key}">출금 확인</button>`:''}</div></div>`}).join('')
-    :`<div class="empty">고정지출이 없어요. + 버튼으로 월세, 통신비 같은 항목을 넣어 주세요.</div>`;
+    :`<div class="empty">${fixScope} 고정지출이 없어요. + 버튼으로 추가하세요.</div>`;
   h+=`</div></section>`;
 
   // 은행별 준비 금액: 다음 월급 전까지 (월급날이 없으면 30일)
   const nx=payEvents().find(e=>e.date>today);
   const basisTo=nx?nx.date:addD(today,31);
   const basisLbl=nx?`다음 월급 ${md(nx.date)} 전까지`:'앞으로 30일';
-  const need=dueBetween(today,basisTo,true);
+  const need=dueBetween(today,basisTo,true,FX);
   h+=`<section class="day"><div class="sec-h"><h2>은행별 준비 금액</h2><span>${basisLbl}</span></div><div class="list">`;
   const accs=state.accounts.slice();
-  if(state.fixed.some(f=>!state.accounts.find(a=>a.id===f.acc))) accs.push({id:'_none',name:'은행 미지정',bal:null,virtual:1});
-  const shown=accs.filter(a=>a.virtual||state.fixed.some(f=>f.acc===a.id)||a.bal!=null);
+  if(FX.some(f=>!state.accounts.find(a=>a.id===f.acc))) accs.push({id:'_none',name:'은행 미지정',bal:null,virtual:1});
+  const shown=accs.filter(a=>a.virtual||FX.some(f=>f.acc===a.id));
   h+=shown.length?shown.map(a=>{
     const due=need.filter(x=>a.virtual?!state.accounts.find(z=>z.id===x.f.acc):x.f.acc===a.id);
     const sum=due.reduce((s,x)=>s+x.f.amount,0);
@@ -774,7 +783,8 @@ function fixedSheet(f){
   const isNew=!f;
   openSheet(`<h3>${isNew?'고정지출 추가':'고정지출 고치기'}</h3>
     <form id="ff" class="form">
-      <div class="field"><label for="f-name">항목</label><input id="f-name" maxlength="40" value="${esc(f?.name)}" placeholder="예: 월세, 통신비, 보험"></div>
+      <div class="field"><span class="lab">구분</span><div class="chips" data-group="scope">${SCOPES.map(sc=>`<button type="button" data-v="${sc}" aria-pressed="${sc===(f?f.scope||'공동':fixScope)}">${sc}</button>`).join('')}</div></div>
+      <div class="field"><label for="f-name">항목</label><input id="f-name" maxlength="40" value="${esc(f?.name)}" placeholder="예: 월세, 대출 이자, 관리비"></div>
       <div class="row2"><div class="field"><label for="f-amt">금액 (원)</label><input id="f-amt" inputmode="numeric" class="num" value="${f?f.amount.toLocaleString('ko-KR'):''}" placeholder="0"></div>
       <div class="field"><label for="f-day">매월 출금일</label><select id="f-day">${dayOpts(f?f.day:25)}</select></div></div>
       <div class="field"><label for="f-acc">출금 은행</label>${accSelect('f-acc',f?.acc,false)}</div>
@@ -782,7 +792,7 @@ function fixedSheet(f){
       <p class="err" id="f-err" hidden></p>
       <div class="actions">${isNew?'':'<button type="button" class="btn danger" id="f-del">삭제</button>'}<button type="button" class="btn" data-x>취소</button><button class="btn money">${isNew?'추가':'저장'}</button></div>
     </form>`,sheet=>{
-      bindAcc(sheet,'f-acc');fmtInput(sheet.querySelector('#f-amt'));
+      bindChips(sheet);bindAcc(sheet,'f-acc');fmtInput(sheet.querySelector('#f-amt'));
       const del=sheet.querySelector('#f-del');
       if(del)confirmBtn(del,()=>{state.fixed=state.fixed.filter(x=>x.id!==f.id);save();closeSheet();render();toast('삭제했어요')});
       sheet.querySelector('#ff').addEventListener('submit',e=>{e.preventDefault();
@@ -792,7 +802,8 @@ function fixedSheet(f){
         if(!name)return bad('항목 이름을 적어 주세요.');
         if(!amount)return bad('금액을 적어 주세요.');
         const a=readAcc(sheet,'f-acc');if(a.err)return bad(a.err);
-        const data={name,amount,day:+sheet.querySelector('#f-day').value,acc:a.id};
+        const data={name,amount,day:+sheet.querySelector('#f-day').value,acc:a.id,scope:chipsSel(sheet,'scope')||'공동'};
+        fixScope=data.scope;
         if(isNew)state.fixed.push({id:uid(),...data});else Object.assign(f,data);
         save();closeSheet();render();toast(isNew?'고정지출을 추가했어요':'저장했어요');
       });
@@ -936,7 +947,7 @@ function buildNotifs(){
   state.fixed.forEach(f=>{
     for(let k=0;k<3;k++){const dt=new Date(y,m+k,1);const d=dueIn(f,dt.getFullYear(),dt.getMonth());
       if(state.paid[ymd(d).slice(0,7)+':'+f.id])continue;
-      const line=`${f.name} ${won(f.amount)} · ${accName(f.acc)}`;
+      const line=`[${f.scope||'공동'}] ${f.name} ${won(f.amount)} · ${accName(f.acc)}`;
       const eve=at(addD(d,-1),20,0), morn=at(d,8,0);
       if(eve>now)out.push({id:fid++,title:'내일 출금 예정',body:line+'\n잔액을 확인해 두세요',when:eve});
       if(morn>now)out.push({id:fid++,title:'오늘 출금일',body:line,when:morn});
@@ -1005,9 +1016,10 @@ app.addEventListener('click',e=>{
   else if(act==='editPay') paySheet(state.pays.find(x=>x.id===id));
   else if(act==='pay'){const key=b.dataset.key;state.paid[key]=1;
     const f=state.fixed.find(z=>key.endsWith(':'+z.id));
-    if(f&&!state.spend.some(z=>z.fixedKey===key))state.spend.push({id:uid(),at:Date.now(),date:ymd(today),amount:f.amount,cat:'고정지출',memo:f.name,who:'',pay:f.acc,fixedKey:key,ex:f.ex});
+    if(f&&!state.spend.some(z=>z.fixedKey===key))state.spend.push({id:uid(),at:Date.now(),date:ymd(today),amount:f.amount,cat:'고정지출',memo:f.name,who:(f.scope||'공동')==='개인'?'나':'공동',pay:f.acc,fixedKey:key,ex:f.ex});
     save();const r=b.getBoundingClientRect();burst(r.left+r.width/2,r.top,2);render();toast('출금 확인했어요')}
   else if(act==='backup') backupSheet();
+  else if(act==='scope'){fixScope=b.dataset.v;render()}
   else if(act==='sub'){sub=b.dataset.v;render();scrollTo(0,0)}
   else if(act==='mPrev'||act==='mNext'){const cur=bookMonth||ymd(today).slice(0,7);const[y,m]=cur.split('-').map(Number);const d=new Date(y,m-1+(act==='mNext'?1:-1),1);bookMonth=ymd(d).slice(0,7);render()}
   else if(act==='editSpend') spendSheet(state.spend.find(x=>x.id===b.dataset.id));
