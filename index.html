@@ -120,6 +120,11 @@ header.top{display:flex;align-items:center;justify-content:space-between;gap:8px
 .mboard .lbl{font-size:11px;color:var(--muted);font-weight:600;letter-spacing:.04em}
 .mboard .v{font-size:17px;font-weight:700;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .mboard .v.money{color:var(--money)}
+.paycalc{background:var(--bg);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:4px}
+.paycalc .r{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);gap:8px}
+.paycalc .r.big{font-size:14px;color:var(--ink);padding-bottom:6px;margin-bottom:2px;border-bottom:1px solid var(--line)}
+.paycalc .r.big b{font-size:18px;color:var(--money)}
+.paycalc .hint{margin-top:4px}
 .scope-chips button{padding:8px 16px}
 .scope-chips .num{opacity:.6;margin-left:2px}
 .scope-hint{margin-top:-14px}
@@ -608,7 +613,7 @@ function payListSheet(){
   openSheet(`<h3>월급날</h3>
     <p class="hint">월급날을 넣으면 은행별 준비 금액을 "다음 월급 전까지" 기준으로 계산하고, 월급날 아침에 알려 드려요.</p>
     <div>${state.pays.length?state.pays.map(p=>{const n=pe.find(e=>e.p.id===p.id&&e.date>=today);
-      return `<div class="rule"><button class="body" data-pid="${p.id}"><div>${esc(p.name)} ${p.amount?'· '+won(p.amount):''}</div><div class="m">매월 ${p.day}일${p.acc?' · '+esc(accName(p.acc)):''}${n?' · 다음 '+md(n.date):''}</div></button></div>`}).join(''):'<p class="hint">아직 없어요.</p>'}</div>
+      return `<div class="rule"><button class="body" data-pid="${p.id}"><div>${esc(p.name)} ${p.amount?'· '+(p.calc?'예상 ':'')+won(p.amount):''}</div><div class="m">매월 ${p.day}일${p.acc?' · '+esc(accName(p.acc)):''}${n?' · 다음 '+md(n.date):''}</div></button></div>`}).join(''):'<p class="hint">아직 없어요.</p>'}</div>
     <div class="actions"><button class="btn" data-x>닫기</button><button class="btn primary" id="pl-new">월급날 추가</button></div>`,sheet=>{
       sheet.querySelectorAll('[data-pid]').forEach(b=>b.onclick=()=>paySheet(state.pays.find(p=>p.id===b.dataset.pid)));
       sheet.querySelector('#pl-new').onclick=()=>paySheet(null);
@@ -809,29 +814,91 @@ function fixedSheet(f){
       });
     });
 }
+// 2026년 기준 월급 실수령 추정 (간이세액표 산식 근사)
+const RATE={np:0.0475,npMin:410000,npMax:6590000,hi:0.03595,ltc:0.1314,ei:0.009};
+const t10=x=>Math.floor(x/10)*10;
+function earnDed(A){if(A<=5e6)return A*.7;if(A<=15e6)return 3.5e6+(A-5e6)*.4;if(A<=45e6)return 7.5e6+(A-15e6)*.15;if(A<=1e8)return 12e6+(A-45e6)*.05;return Math.min(2e7,14.75e6+(A-1e8)*.02)}
+function specialDed(A,fam){
+  if(A>1.2e8)return 0;
+  const over4=Math.max(0,A-4e7)*.04;
+  if(fam<=1){if(A<=3e7)return 3.1e6+A*.04;if(A<=4.5e7)return 3.1e6+A*.04-(A-3e7)*.05;if(A<=7e7)return 3.1e6+A*.015;return 3.1e6+A*.005}
+  if(fam===2){if(A<=3e7)return 3.6e6+A*.04;if(A<=4.5e7)return 3.6e6+A*.04-(A-3e7)*.05;if(A<=7e7)return 3.6e6+A*.02;return 3.6e6+A*.01}
+  if(A<=3e7)return 5e6+A*.07;if(A<=4.5e7)return 5e6+A*.07-(A-3e7)*.05+over4;if(A<=7e7)return 5e6+A*.05+over4;return 5e6+A*.03+over4;
+}
+function progTax(x){const B=[[14e6,.06,0],[5e7,.15,1.26e6],[8.8e7,.24,5.76e6],[1.5e8,.35,15.44e6],[3e8,.38,19.94e6],[5e8,.40,25.94e6],[1e9,.42,35.94e6],[Infinity,.45,65.94e6]];for(const[c,r,d]of B)if(x<=c)return Math.max(0,x*r-d);return 0}
+function earnCredit(tax,A){let c=tax<=1.3e6?tax*.55:715000+(tax-1.3e6)*.3;let lim;if(A<=3.3e7)lim=740000;else if(A<=7e7)lim=Math.max(660000,740000-(A-3.3e7)*.008);else if(A<=1.2e8)lim=Math.max(500000,660000-(A-7e7)*.5);else lim=Math.max(200000,500000-(A-1.2e8)*.5);return Math.min(c,lim)}
+function childCredit(n){if(n<=0)return 0;if(n===1)return 12500;if(n===2)return 29160;return 29160+(n-2)*25000}
+function estimatePay({annual,nontax=200000,fam=1,kids=0}){
+  const G=annual/12, T=Math.max(0,G-nontax), A=T*12;
+  const np=t10(Math.min(Math.max(T,RATE.npMin),RATE.npMax)*RATE.np);
+  const hi=t10(T*RATE.hi), ltc=t10(hi*RATE.ltc), ei=t10(T*RATE.ei);
+  const income=A-earnDed(A);
+  const base=Math.max(0,income-1.5e6*fam-np*12-specialDed(A,fam));
+  const calc=progTax(base);
+  let it=t10(Math.max(0,(calc-earnCredit(calc,A))/12-childCredit(kids)));
+  if(T<=1.06e6)it=0;
+  const lt=t10(it*.1);
+  const ded=np+hi+ltc+ei+it+lt;
+  return {gross:Math.round(G),np,hi,ltc,ei,it,lt,ded,net:Math.round(G-ded)};
+}
+
 function paySheet(p){
   const isNew=!p;
+  const c=p&&p.calc||{annual:'',nontax:200000,fam:1,kids:0};
+  const mode=p&&p.calc?'annual':'amount';
+  const opt=(n,sel,from)=>Array.from({length:n},(_,i)=>i+from).map(v=>`<option value="${v}"${v===sel?' selected':''}>${v}명</option>`).join('');
   openSheet(`<h3>${isNew?'월급날 추가':'월급날 고치기'}</h3>
     <form id="pf" class="form">
       <div class="field"><label for="p-name">이름</label><input id="p-name" maxlength="20" value="${esc(p?.name)}" placeholder="예: 내 월급, 와이프 월급"></div>
       <div class="row2"><div class="field"><label for="p-day">매월 입금일</label><select id="p-day">${dayOpts(p?p.day:25)}</select></div>
-      <div class="field"><label for="p-amt">금액 (선택)</label><input id="p-amt" inputmode="numeric" class="num" value="${p&&p.amount?p.amount.toLocaleString('ko-KR'):''}" placeholder="0"></div></div>
-      <div class="field"><label for="p-acc">들어오는 은행</label>${accSelect('p-acc',p?.acc,true)}</div>
+        <div class="field"><label for="p-acc">들어오는 은행</label>${accSelect('p-acc',p?.acc,true)}</div></div>
       <label class="check"><input type="checkbox" id="p-shift" ${!p||p.shift?'checked':''}> 주말이면 직전 금요일에 들어와요</label>
+      <div class="field"><span class="lab">금액 입력 방식</span><div class="chips" data-group="pmode">
+        <button type="button" data-v="annual" aria-pressed="${mode==='annual'}">연봉으로 계산</button>
+        <button type="button" data-v="amount" aria-pressed="${mode==='amount'}">실수령액 직접 입력</button></div></div>
+      <div id="g-annual" class="form">
+        <div class="row2"><div class="field"><label for="p-annual">연봉 (세전, 원)</label><input id="p-annual" inputmode="numeric" class="num" value="${c.annual?(+c.annual).toLocaleString('ko-KR'):''}" placeholder="예: 50,000,000"></div>
+          <div class="field"><label for="p-nontax">비과세 (월, 식대 등)</label><input id="p-nontax" inputmode="numeric" class="num" value="${(+c.nontax).toLocaleString('ko-KR')}"></div></div>
+        <div class="row2"><div class="field"><label for="p-fam">부양가족 (본인 포함)</label><select id="p-fam">${opt(6,c.fam,1)}</select></div>
+          <div class="field"><label for="p-kids">8~20세 자녀</label><select id="p-kids">${opt(5,c.kids,0)}</select></div></div>
+        <div class="paycalc" id="p-calc"></div>
+      </div>
+      <div class="field" id="g-amount"><label for="p-amt">실수령액 (원)</label><input id="p-amt" inputmode="numeric" class="num" value="${p&&p.amount?p.amount.toLocaleString('ko-KR'):''}" placeholder="0"></div>
       <p class="err" id="p-err" hidden></p>
       <div class="actions">${isNew?'':'<button type="button" class="btn danger" id="p-del">삭제</button>'}<button type="button" class="btn" data-x>취소</button><button class="btn primary">${isNew?'추가':'저장'}</button></div>
     </form>`,sheet=>{
-      bindAcc(sheet,'p-acc');fmtInput(sheet.querySelector('#p-amt'));
-      const del=sheet.querySelector('#p-del');
+      const q=id=>sheet.querySelector(id), num=id=>+q(id).value.replace(/[^\d]/g,'')||0;
+      let est=null;
+      const calc=()=>{
+        const annual=num('#p-annual'), box=q('#p-calc');
+        if(!annual){est=null;box.innerHTML='<p class="hint">연봉을 넣으면 2026년 4대보험 요율과 간이세액표 기준으로 실수령액을 계산해요.</p>';return}
+        est=estimatePay({annual,nontax:num('#p-nontax'),fam:+q('#p-fam').value,kids:+q('#p-kids').value});
+        const row=(k,v)=>`<div class="r"><span>${k}</span><span class="num">${v}</span></div>`;
+        box.innerHTML=`<div class="r big"><span>예상 실수령액</span><b class="num">${won(est.net)}</b></div>
+          ${row('세전 월급',won(est.gross))}
+          ${row('국민연금 4.75%','-'+won(est.np))}${row('건강보험 3.595%','-'+won(est.hi))}${row('장기요양','-'+won(est.ltc))}${row('고용보험 0.9%','-'+won(est.ei))}
+          ${row('소득세','-'+won(est.it))}${row('지방소득세','-'+won(est.lt))}
+          <p class="hint">회사의 실제 원천징수와 몇천~1만 원 정도 다를 수 있어요. 성과급·수당이 있는 달은 따로 차이가 나요.</p>`;
+      };
+      const sync=()=>{const m=chipsSel(sheet,'pmode');q('#g-annual').hidden=m!=='annual';q('#g-amount').hidden=m!=='amount'};
+      bindChips(sheet,sync);sync();
+      ['#p-annual','#p-nontax','#p-amt'].forEach(id=>fmtInput(q(id)));
+      ['#p-annual','#p-nontax'].forEach(id=>q(id).addEventListener('input',calc));
+      ['#p-fam','#p-kids'].forEach(id=>q(id).addEventListener('change',calc));
+      calc();bindAcc(sheet,'p-acc');
+      const del=q('#p-del');
       if(del)confirmBtn(del,()=>{state.pays=state.pays.filter(x=>x.id!==p.id);save();closeSheet();render()});
-      sheet.querySelector('#pf').addEventListener('submit',e=>{e.preventDefault();
-        const err=sheet.querySelector('#p-err');
-        const name=sheet.querySelector('#p-name').value.trim();if(!name){err.textContent='이름을 적어 주세요.';err.hidden=false;return}
-        const a=readAcc(sheet,'p-acc');if(a.err){err.textContent=a.err;err.hidden=false;return}
-        const raw=sheet.querySelector('#p-amt').value.replace(/[^\d]/g,'');
-        const data={name,day:+sheet.querySelector('#p-day').value,acc:a.id||null,amount:raw?+raw:null,shift:sheet.querySelector('#p-shift').checked};
+      q('#pf').addEventListener('submit',e=>{e.preventDefault();
+        const err=q('#p-err');const bad=m=>{err.textContent=m;err.hidden=false};
+        const name=q('#p-name').value.trim();if(!name)return bad('이름을 적어 주세요.');
+        const a=readAcc(sheet,'p-acc');if(a.err)return bad(a.err);
+        const m=chipsSel(sheet,'pmode');
+        let amount=null,calcData=null;
+        if(m==='annual'){if(!est)return bad('연봉을 적어 주세요.');amount=est.net;calcData={annual:num('#p-annual'),nontax:num('#p-nontax'),fam:+q('#p-fam').value,kids:+q('#p-kids').value}}
+        else amount=num('#p-amt')||null;
+        const data={name,day:+q('#p-day').value,acc:a.id||null,amount,calc:calcData,shift:q('#p-shift').checked};
         if(isNew)state.pays.push({id:uid(),...data});else Object.assign(p,data);
-        save();closeSheet();render();toast(isNew?'월급날을 추가했어요':'저장했어요');
+        save();closeSheet();render();toast(amount?`${name} ${won(amount)}으로 저장했어요`:'저장했어요');
       });
     });
 }
