@@ -1,5 +1,5 @@
 // 오프라인에서도 열리도록 앱 파일과 글꼴을 휴대폰에 저장해 둔다.
-const CACHE='haru-e351b9c';
+const CACHE='haru-0d02946';
 const CORE=['./','index.html','manifest.webmanifest','apple-touch-icon.png','icon-192.png','icon-512.png'];
 self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
