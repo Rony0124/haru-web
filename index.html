@@ -18,7 +18,7 @@
  * nav: bottom tab sheet, two tabs, one pear add button · signature: the pear scoreboard sheet torn along its foot · states: empty, full (no loading or error: data is on the device)
  * axes: light/rounded-sans/chromatic-yellow · posture: full-palette · contrast: pass · v2.0.0 */
 /* Hallmark · pre-emit critique: P4 H4 E4 S5 R4 V4 · weakest: P, Chillax has no Hangul, so Jua carries the rounded display voice and Gowun Dodum the body */
-/* waive 7: single light theme by choice, the paper look does not invert */
+/* answered 7: light paper and a dark ink-paper theme, chosen in settings or following the phone */
 /* answered F4: the ink fills are the chosen tab and segment (Hum: a chosen pill is ink), not buttons; the one filled action is the pear add button */
 /* answered F7: pills mark points, repeat tags and the progress track, not boxes */
 /* answered 70: saves go to storage on this phone, so the success toast follows a real write */
@@ -39,6 +39,7 @@
   --color-card: oklch(98.8% 0.007 95); --color-edge: oklch(83% 0.04 88); --color-fringe: oklch(99.2% 0.006 95);
   --color-kraft: oklch(63% 0.085 62); --color-sand: oklch(77% 0.1 76); --color-sugar: oklch(89% 0.035 236);
   --color-scrim: oklch(20% 0.014 255 / 0.42); --color-track: oklch(20% 0.014 255 / 0.14);
+  --color-on-accent-2: oklch(29% 0.014 255);
   --font-display: "Jua", ui-rounded, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --font-body: "Gowun Dodum", ui-rounded, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
   --radius-card: 24px; --radius-stock: 16px; --radius-input: 14px; --radius-pill: 999px;
@@ -51,6 +52,36 @@
   --tear-b: polygon(0 0, 100% 0, 100.0% calc(100% - 5.8px), 97.06% calc(100% - 3.4px), 94.12% calc(100% - 4.3px), 91.18% calc(100% - 5.6px), 88.24% calc(100% - 3.5px), 85.29% calc(100% - 1.3px), 82.35% calc(100% - 3.0px), 79.41% calc(100% - 0.9px), 76.47% calc(100% - 1.6px), 73.53% calc(100% - 2.8px), 70.59% calc(100% - 1.4px), 67.65% calc(100% - 5.0px), 64.71% calc(100% - 3.5px), 61.76% calc(100% - 4.7px), 58.82% calc(100% - 4.7px), 55.88% calc(100% - 0.2px), 52.94% calc(100% - 5.1px), 50.0% calc(100% - 1.3px), 47.06% calc(100% - 2.4px), 44.12% calc(100% - 4.1px), 41.18% calc(100% - 1.2px), 38.24% calc(100% - 2.8px), 35.29% calc(100% - 3.7px), 32.35% calc(100% - 5.4px), 29.41% calc(100% - 5.6px), 26.47% calc(100% - 5.0px), 23.53% calc(100% - 4.1px), 20.59% calc(100% - 1.2px), 17.65% calc(100% - 0.3px), 14.71% calc(100% - 5.6px), 11.76% calc(100% - 2.1px), 8.82% calc(100% - 0.9px), 5.88% calc(100% - 0.8px), 2.94% calc(100% - 4.4px), 0.0% calc(100% - 4.3px));
     --tear-t: polygon(0.0% 4.0px, 2.5% 2.5px, 5.0% 1.2px, 7.5% 1.9px, 10.0% 2.1px, 12.5% 3.4px, 15.0% 4.0px, 17.5% 1.2px, 20.0% 0.5px, 22.5% 2.4px, 25.0% 2.1px, 27.5% 0.6px, 30.0% 4.5px, 32.5% 4.5px, 35.0% 4.8px, 37.5% 1.5px, 40.0% 0.7px, 42.5% 0.3px, 45.0% 3.9px, 47.5% 4.0px, 50.0% 0.9px, 52.5% 1.8px, 55.0% 4.7px, 57.5% 0.1px, 60.0% 0.5px, 62.5% 2.0px, 65.0% 4.2px, 67.5% 3.9px, 70.0% 4.3px, 72.5% 2.8px, 75.0% 3.7px, 77.5% 3.3px, 80.0% 2.7px, 82.5% 4.2px, 85.0% 4.7px, 87.5% 1.1px, 90.0% 3.1px, 92.5% 4.3px, 95.0% 0.8px, 97.5% 1.8px, 100.0% 0.8px, 100% 100%, 0 100%);
   padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --color-paper: oklch(19% 0.016 255); --color-paper-2: oklch(22.5% 0.018 255); --color-paper-3: oklch(27% 0.02 255);
+  --color-ink: oklch(94% 0.014 95); --color-ink-2: oklch(86% 0.016 95); --color-muted: oklch(70% 0.016 95);
+  --color-rule: oklch(31% 0.018 255);
+  --color-accent-deep: oklch(64% 0.15 92); --color-accent-soft: oklch(38% 0.075 96);
+  --color-accent-2: oklch(74% 0.12 250); --color-accent-3: oklch(68% 0.18 22);
+  --color-mint: oklch(76% 0.14 152); --color-mint-soft: oklch(30% 0.05 152); --color-mint-deep: oklch(80% 0.13 152);
+  --color-focus: oklch(74% 0.12 250); --color-error: oklch(72% 0.16 27);
+  --color-card: oklch(24% 0.018 255); --color-edge: oklch(13% 0.014 255); --color-fringe: oklch(30% 0.02 255);
+  --color-kraft: oklch(66% 0.08 62); --color-sand: oklch(74% 0.09 76); --color-sugar: oklch(34% 0.045 236);
+  --color-scrim: oklch(8% 0.01 255 / 0.62);
+  --fibre: none;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .95 0 0 0 0 .93 0 0 0 0 .85 0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --color-paper: oklch(19% 0.016 255); --color-paper-2: oklch(22.5% 0.018 255); --color-paper-3: oklch(27% 0.02 255);
+  --color-ink: oklch(94% 0.014 95); --color-ink-2: oklch(86% 0.016 95); --color-muted: oklch(70% 0.016 95);
+  --color-rule: oklch(31% 0.018 255);
+  --color-accent-deep: oklch(64% 0.15 92); --color-accent-soft: oklch(38% 0.075 96);
+  --color-accent-2: oklch(74% 0.12 250); --color-accent-3: oklch(68% 0.18 22);
+  --color-mint: oklch(76% 0.14 152); --color-mint-soft: oklch(30% 0.05 152); --color-mint-deep: oklch(80% 0.13 152);
+  --color-focus: oklch(74% 0.12 250); --color-error: oklch(72% 0.16 27);
+  --color-card: oklch(24% 0.018 255); --color-edge: oklch(13% 0.014 255); --color-fringe: oklch(30% 0.02 255);
+  --color-kraft: oklch(66% 0.08 62); --color-sand: oklch(74% 0.09 76); --color-sugar: oklch(34% 0.045 236);
+  --color-scrim: oklch(8% 0.01 255 / 0.62);
+  --fibre: none;
+  --grain: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='180' height='180'><filter id='g'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .95 0 0 0 0 .93 0 0 0 0 .85 0 0 0 .05 0'/></filter><rect width='100%' height='100%' filter='url(%23g)'/></svg>");
+  color-scheme: dark;
 }
 *, *::before, *::after { box-sizing: border-box; }
 html, body { overflow-x: clip; }
@@ -85,20 +116,20 @@ header.top { display: flex; align-items: flex-start; justify-content: space-betw
 .board { position: relative; display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: var(--space-xs) var(--space-sm); padding: 20px var(--space-md) var(--space-xl); border-radius: var(--radius-card) var(--radius-card) 0 0; background: var(--grain), var(--fibre), var(--color-accent); color: var(--color-accent-ink); clip-path: var(--tear-b); }
 .board .cell { display: flex; flex-direction: column; gap: var(--space-2xs); min-width: 0; }
 .board .cell + .cell { border-left: 1.5px solid var(--color-accent-deep); padding-left: var(--space-sm); }
-.board .lbl { font-size: var(--text-sm); color: var(--color-ink-2); }
+.board .lbl { font-size: var(--text-sm); color: var(--color-on-accent-2); }
 .board .pts { font-family: var(--font-display); font-size: var(--text-4xl); line-height: 1; font-variant-numeric: tabular-nums; transition: translate var(--dur-short) var(--ease-spring); }
-.board .pts small { font-size: var(--text-lg); margin-left: var(--space-2xs); color: var(--color-ink-2); }
+.board .pts small { font-size: var(--text-lg); margin-left: var(--space-2xs); color: var(--color-on-accent-2); }
 .board .pts.bump { translate: 0 -4px; }
-.board .meta { font-size: var(--text-sm); color: var(--color-ink-2); }
-.board .meta button { color: var(--color-ink-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 3px; min-height: 28px; }
+.board .meta { font-size: var(--text-sm); color: var(--color-on-accent-2); }
+.board .meta button { color: var(--color-on-accent-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 3px; min-height: 28px; }
 .bar { grid-column: 1 / -1; margin-top: var(--space-sm); height: 10px; border-radius: var(--radius-pill); background: var(--color-track); overflow: hidden; }
-.bar i { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--color-ink); transform-origin: left center; transform: scaleX(var(--p, 0)); transition: transform 500ms var(--ease-snap); }
-.bar-lbl { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: var(--text-sm); color: var(--color-ink-2); }
+.bar i { display: block; height: 100%; border-radius: var(--radius-pill); background: var(--color-accent-ink); transform-origin: left center; transform: scaleX(var(--p, 0)); transition: transform 500ms var(--ease-snap); }
+.bar-lbl { grid-column: 1 / -1; display: flex; justify-content: space-between; font-size: var(--text-sm); color: var(--color-on-accent-2); }
 
 /* 알림 띠 */
 .alerts { display: flex; flex-direction: column; gap: var(--space-xs); }
 .alert { display: flex; gap: var(--space-sm); align-items: center; padding: var(--space-sm) var(--space-md); border-radius: var(--radius-stock); background: var(--grain), var(--color-card); box-shadow: inset 0 0 0 1px var(--color-rule); font-size: var(--text-sm); }
-.alert .tag { flex: none; font-family: var(--font-display); font-size: var(--text-sm); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-pill); background: var(--color-mint); color: var(--color-ink); }
+.alert .tag { flex: none; font-family: var(--font-display); font-size: var(--text-sm); padding: var(--space-2xs) var(--space-xs); border-radius: var(--radius-pill); background: var(--color-mint); color: var(--color-accent-ink); }
 .alert.warn .tag { background: var(--color-accent-3); }
 .alert.pay .tag { background: var(--color-accent); }
 .alert .grow { flex: 1; min-width: 0; display: flex; flex-wrap: wrap; gap: var(--space-2xs) var(--space-xs); align-items: baseline; }
@@ -125,7 +156,7 @@ header.top { display: flex; align-items: flex-start; justify-content: space-betw
 .chk:active { translate: 0 2px; box-shadow: inset 0 0 0 2px var(--color-edge); }
 .chk svg { width: 18px; height: 18px; color: var(--color-ink); opacity: 0; scale: 0.4; transition: opacity var(--dur-short) var(--ease-snap), scale var(--dur-short) var(--ease-spring); }
 .task.done .chk { background: var(--color-mint); box-shadow: 0 2px 0 0 var(--color-mint-deep); }
-.task.done .chk svg { opacity: 1; scale: 1; }
+.task.done .chk svg { opacity: 1; scale: 1; color: var(--color-accent-ink); }
 .task .body, .spend .body, .pay .body { flex: 1; min-width: 0; text-align: left; display: flex; flex-direction: column; gap: var(--space-2xs); }
 .task .t, .spend .t, .pay .t { font-size: var(--text-md); overflow-wrap: anywhere; color: var(--color-ink); }
 .task.done .t { color: var(--color-muted); text-decoration: line-through; text-decoration-color: var(--color-muted); }
@@ -139,7 +170,7 @@ header.top { display: flex; align-items: flex-start; justify-content: space-betw
 .link-btn { color: var(--color-accent-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 3px; min-height: 36px; }
 
 /* 가계 */
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-xs); padding: var(--space-2xs); border-radius: var(--radius-pill); background: var(--color-paper-3); }
+.seg { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xs); padding: var(--space-2xs); border-radius: var(--radius-pill); background: var(--color-paper-3); }
 .seg button { min-height: 44px; border-radius: var(--radius-pill); font-family: var(--font-display); font-size: var(--text-md); color: var(--color-muted); transition: background-color var(--dur-short) var(--ease-snap), color var(--dur-short) var(--ease-snap); }
 .seg button[aria-selected="true"] { background: var(--color-ink); color: var(--color-paper); }
 .mboard, .spend-top, .bank, .setup { border-radius: var(--radius-card); background: var(--grain), var(--color-card); box-shadow: inset 0 0 0 1px var(--color-rule); }
@@ -176,7 +207,8 @@ header.top { display: flex; align-items: flex-start; justify-content: space-betw
 .dday.today { background: var(--color-mint); }
 .dday.over { background: var(--color-accent-3); }
 .dday.payday { background: var(--color-accent); }
-.dday.today span, .dday.over span, .dday.payday span { color: var(--color-ink-2); }
+.dday.today, .dday.over, .dday.payday { color: var(--color-accent-ink); }
+.dday.today span, .dday.over span, .dday.payday span { color: var(--color-on-accent-2); }
 .pay-side { display: flex; flex-direction: column; align-items: flex-end; gap: var(--space-xs); }
 .paybtn { min-height: 36px; padding: 0 var(--space-sm); border-radius: var(--radius-pill); font-size: var(--text-sm); background: var(--color-paper); color: var(--color-ink-2); box-shadow: inset 0 0 0 1px var(--color-edge), 0 2px 0 0 var(--color-edge); transition: translate var(--dur-micro) var(--ease-snap); }
 .paybtn:active { translate: 0 2px; }
@@ -188,8 +220,33 @@ header.top { display: flex; align-items: flex-start; justify-content: space-betw
 .bal-btn { color: var(--color-accent-2); font-size: var(--text-sm); text-decoration: underline; text-underline-offset: 3px; min-height: 32px; }
 .verdict { padding: var(--space-xs) var(--space-sm); border-radius: var(--radius-input); text-align: center; font-size: var(--text-sm); }
 .verdict.ok { background: var(--color-mint-soft); color: var(--color-mint-deep); }
-.verdict.bad { background: var(--color-accent-3); color: var(--color-ink); font-family: var(--font-display); }
+.verdict.bad { background: var(--color-accent-3); color: var(--color-accent-ink); font-family: var(--font-display); }
 .verdict.none { background: var(--color-paper-2); color: var(--color-muted); }
+
+/* 자산 */
+.board.nw { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.board.nw .cell.wide { grid-column: 1 / -1; padding-bottom: var(--space-xs); }
+.board.nw .cell + .cell { border-left: 0; padding-left: 0; }
+.board.nw .cell:nth-child(3) { border-left: 1.5px solid var(--color-accent-deep); padding-left: var(--space-sm); }
+.board .sm { font-family: var(--font-display); font-size: var(--text-xl); }
+.flow { display: flex; flex-direction: column; gap: var(--space-xs); padding: var(--space-md); border-radius: var(--radius-card); background: var(--grain), var(--color-card); box-shadow: inset 0 0 0 1px var(--color-rule); }
+.sheet .flow { padding: var(--space-sm) 0; border-radius: 0; background: none; box-shadow: none; border-block: 1px solid var(--color-rule); }
+.fr { display: flex; justify-content: space-between; gap: var(--space-sm); font-size: var(--text-sm); color: var(--color-muted); }
+.fr .num { color: var(--color-ink); }
+.fr.in .num { color: var(--color-mint-deep); }
+.fr.total { margin-top: var(--space-2xs); padding-top: var(--space-xs); border-top: 1px solid var(--color-rule); font-family: var(--font-display); font-size: var(--text-lg); color: var(--color-ink); }
+.fr.total.bad .num { color: var(--color-error); }
+.asset .pay-side { gap: var(--space-2xs); }
+.asset.debt .amt { color: var(--color-error); }
+.gain { color: var(--color-mint-deep); }
+.mat { font-size: var(--text-xs); padding: 2px var(--space-xs); border-radius: var(--radius-pill); background: var(--color-paper-3); color: var(--color-ink-2); }
+.mat.soon { background: var(--color-accent-3); color: var(--color-accent-ink); }
+.alloc { display: flex; flex-direction: column; gap: var(--space-xs); }
+.al-row { display: grid; grid-template-columns: minmax(0, 1fr) 9.5rem; gap: var(--space-sm); align-items: center; }
+.al-row label { display: flex; flex-direction: column; min-width: 0; }
+.al-row label small { font-size: var(--text-xs); color: var(--color-muted); }
+.al-row input { width: 100%; min-height: 44px; padding: var(--space-xs) var(--space-sm); border: 1px solid var(--color-edge); border-radius: var(--radius-input); background: var(--color-paper); color: var(--color-ink); text-align: right; }
+.al-row input:focus-visible { outline: 2px solid var(--color-focus); outline-offset: -1px; }
 
 /* 아래 탭: 위쪽이 찢어진 종이 */
 nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 20; padding: var(--space-sm) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0); background: var(--grain), var(--fibre), var(--color-paper-2); clip-path: var(--tear-t); }
@@ -363,6 +420,12 @@ function dayStat(ds){
 
 let today=sod(new Date());
 let state, tab='todo';
+let themeSet=false;
+function applyTheme(){
+  const t=state&&state.theme||'system', el=document.documentElement;
+  if(t==='system'){if(themeSet){el.removeAttribute('data-theme');themeSet=false}}
+  else{el.setAttribute('data-theme',t);themeSet=true}
+}
 
 /* ---------- 데이터 ---------- */
 function seed(){
@@ -399,6 +462,16 @@ function seed(){
       {id:uid(),date:ymd(addD(today,-1)),amount:62000,cat:'생활',memo:'장보기',who:'나',pay:a2,at:1,ex:1},
       {id:uid(),date:ymd(addD(today,-1)),amount:1450,cat:'교통',memo:'버스',who:'나',pay:'',at:0,ex:1}
     ],
+    assets:[
+      {id:uid(),kind:'cash',name:'비상금 통장',amount:5000000,bank:'카카오뱅크',monthly:300000,scope:'공동',ex:1},
+      {id:uid(),kind:'deposit',name:'정기예금',amount:30000000,rate:3.2,maturity:ymd(addD(today,24)),bank:'국민은행',scope:'공동',ex:1},
+      {id:uid(),kind:'saving',name:'자유적금',amount:4800000,rate:4.5,maturity:ymd(addD(today,210)),monthly:500000,bank:'신한은행',scope:'공동',ex:1},
+      {id:uid(),kind:'invest',name:'ETF 계좌',amount:12400000,principal:11000000,monthly:700000,bank:'증권사',scope:'공동',ex:1},
+      {id:uid(),kind:'jeonse',name:'전세보증금',amount:300000000,maturity:ymd(addD(today,420)),scope:'공동',ex:1},
+      {id:uid(),kind:'loan',name:'전세대출',amount:200000000,rate:3.9,maturity:ymd(addD(today,420)),payDay:15,scope:'공동',ex:1}
+    ],
+    flow:{set:true,hub:a1,living:1500000,allow:[{who:'나',amount:400000},{who:'와이프',amount:400000}],ex:1},
+    alloc:{}, netHist:{},
     fixed:f, paid, hasEx:true};
 }
 function migrate(s){
@@ -410,7 +483,7 @@ function migrate(s){
   }
   if(s.v!==2)return null;
   s.tasks=s.tasks||[];s.recs=s.recs||[];s.skips=s.skips||{};s.accounts=s.accounts||[];
-  s.fixed=s.fixed||[];s.fixed.forEach(f=>{if(!f.scope)f.scope='공동'});s.spend=s.spend||[];s.paid=s.paid||{};s.pays=s.pays||[];s.goal=s.goal||50;s.updatedAt=s.updatedAt||0;
+  s.assets=s.assets||[];s.alloc=s.alloc||{};s.netHist=s.netHist||{};s.fixed=s.fixed||[];s.fixed.forEach(f=>{if(!f.scope)f.scope='공동'});s.spend=s.spend||[];s.paid=s.paid||{};s.pays=s.pays||[];s.goal=s.goal||50;s.updatedAt=s.updatedAt||0;
   // 1년 넘은 완료 할일은 정리
   const cut=ymd(addD(today,-400));
   s.tasks=s.tasks.filter(t=>!(t.done&&t.date<cut));
@@ -484,12 +557,12 @@ function occ(f){ // 아직 확인 안 한 가장 이른 출금 회차
   return {date:d,key:ymd(d).slice(0,7)+':'+f.id,d:diffD(d,today)};
 }
 // [from, to) 사이에 빠질 출금 (확인 안 한 것만). withOverdue면 이번 달에 이미 지났는데 확인 안 한 것도 포함
+/* 기간 안에 빠져나갈 고정지출. 한 항목은 한 번만 센다: 아직 확인 안 한 가장 가까운 회차 하나 */
 function dueBetween(from,to,withOverdue,fixedList){
-  const out=[];const y=today.getFullYear(),m=today.getMonth();
+  const out=[];
   (fixedList||state.fixed).forEach(f=>{
-    for(let k=0;k<4;k++){const dt=new Date(y,m+k,1);const d=dueIn(f,dt.getFullYear(),dt.getMonth());
-      const key=ymd(d).slice(0,7)+':'+f.id; if(state.paid[key])continue;
-      if((d>=from&&d<to)||(withOverdue&&k===0&&d<today))out.push({f,date:d,key});}
+    const o=occ(f);
+    if((o.date>=from&&o.date<to)||(withOverdue&&o.date<from))out.push({f,date:o.date,key:o.key});
   });
   return out.sort((a,b)=>a.date-b.date);
 }
@@ -509,6 +582,7 @@ function byBank(list){const g={};list.forEach(x=>{const k=x.f.acc;g[k]=(g[k]||0)
 /* ---------- 렌더 ---------- */
 const app=document.getElementById('app');
 function render(){
+  applyTheme();
   today=sod(new Date());
   materialize();
   document.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===tab));
@@ -518,8 +592,8 @@ let notifState='none'; // none | on | off
 function header(){
   const nb=notifState==='off'?`<button type="button" class="sync" data-act="notifPerm">알림 켜기</button>`:'';
   return `<header class="top"><div><div class="date-big num">${today.getMonth()+1}월 ${today.getDate()}일 ${DOW[today.getDay()]}요일</div>
-  <div class="date-sub"><span>${tab==='todo'?'오늘부터 사흘치 할일':(sub==='book'?'쓴 돈 기록':'고정지출과 출금 준비')}</span>${nb}</div></div>
-  <div class="head-btns">${tab==='todo'?`<button class="icon-btn" data-act="calendar" aria-label="달력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></button>`:''}<button class="icon-btn" data-act="backup" aria-label="백업과 복원"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg></button></div></header>`
+  <div class="date-sub"><span>${tab==='todo'?'오늘부터 사흘치 할일':({book:'쓴 돈 기록',fixed:'고정지출과 출금 준비',asset:'순자산과 월급 배분'}[sub])}</span>${nb}</div></div>
+  <div class="head-btns">${tab==='todo'?`<button class="icon-btn" data-act="calendar" aria-label="달력"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg></button>`:''}<button type="button" class="icon-btn" data-act="backup" aria-label="설정"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></svg></button></div></header>`
   +(state.hasEx?`<div class="example-note"><span>지금 보이는 항목은 예시예요.</span><button data-act="clearEx">예시 지우기</button></div>`:'');
 }
 
@@ -578,8 +652,9 @@ let sub='book', bookMonth=null;
 function moneyView(){
   return `<div class="seg" role="tablist" aria-label="가계 화면">
     <button role="tab" aria-selected="${sub==='book'}" data-act="sub" data-v="book">가계부</button>
-    <button role="tab" aria-selected="${sub==='fixed'}" data-act="sub" data-v="fixed">고정지출</button></div>`
-    +(sub==='book'?bookView():fixedView());
+    <button role="tab" aria-selected="${sub==='fixed'}" data-act="sub" data-v="fixed">고정지출</button>
+    <button role="tab" aria-selected="${sub==='asset'}" data-act="sub" data-v="asset">자산</button></div>`
+    +(sub==='book'?bookView():sub==='fixed'?fixedView():assetView());
 }
 function bookView(){
   const cur=ymd(today).slice(0,7);
@@ -661,6 +736,202 @@ function fixedView(){
   h+=`</div></section>`;
   h+=`<div class="foot-links"><button class="link-btn" data-act="payList">월급날 설정 (${state.pays.length})</button><button class="link-btn" data-act="newAcc">은행 추가</button></div>`;
   return h;
+}
+/* ---------- 자산 ---------- */
+const AKIND={cash:'입출금·비상금',deposit:'예금',saving:'적금',invest:'주식·투자',pension:'연금',jeonse:'전세보증금',loan:'대출',other:'기타 자산'};
+const AGROUP=[['현금과 예적금',['cash','deposit','saving']],['투자와 연금',['invest','pension']],['집',['jeonse']],['기타',['other']],['부채',['loan']]];
+const MATURE={deposit:[30,7],saving:[30,7],jeonse:[180,60],loan:[60,30]}; // 만기 며칠 전에 알릴지
+const isDebt=a=>a.kind==='loan';
+function netWorth(){let as=0,de=0;state.assets.forEach(a=>{if(isDebt(a))de+=a.amount;else as+=a.amount});return {as,de,net:as-de}}
+function flowCalc(){
+  const fl=state.flow||{};
+  const income=state.pays.reduce((s,p)=>s+(p.amount||0),0);
+  const living=fl.living||0;
+  const allow=(fl.allow||[]).reduce((s,x)=>s+(x.amount||0),0);
+  const direct=fl.hub?state.fixed.filter(f=>f.acc===fl.hub).reduce((s,f)=>s+f.amount,0):0;
+  return {income,living,allow,direct,avail:income-living-allow-direct};
+}
+function matInfo(a){
+  if(!a.maturity)return null;
+  const d=diffD(parse(a.maturity),today), win=(MATURE[a.kind]||[30])[0];
+  return {d,soon:d<=win,label:d<0?'만기 지남':d===0?'오늘 만기':'만기 D-'+d};
+}
+function assetRow(a){
+  const m=[`<span>${AKIND[a.kind]}</span>`];
+  if(a.bank)m.push(`<span>${esc(a.bank)}</span>`);
+  if(a.rate)m.push(`<span>연 ${a.rate}%</span>`);
+  if((a.kind==='invest'||a.kind==='pension')&&a.principal){const r=(a.amount-a.principal)/a.principal*100;m.push(`<span class="${r>=0?'gain':'pp'}">수익률 ${r>=0?'+':''}${r.toFixed(1)}%</span>`)}
+  if(a.kind==='loan'&&a.rate)m.push(`<span>월 이자 약 ${won(a.amount*a.rate/1200)}</span>`);
+  if(a.monthly)m.push(`<span>매달 ${won(a.monthly)}</span>`);
+  if(a.scope==='개인')m.push(`<span class="scope-tag">개인</span>`);
+  const mi=matInfo(a);
+  return `<button type="button" class="spend asset${isDebt(a)?' debt':''}" data-act="editAsset" data-id="${a.id}">
+    <span class="body"><span class="t">${esc(a.name)}</span><span class="m">${m.join('')}</span></span>
+    <span class="pay-side"><span class="amt">${isDebt(a)?'-':''}${won(a.amount)}</span>${mi?`<span class="mat${mi.soon?' soon':''}">${mi.label}</span>`:''}</span></button>`;
+}
+function assetView(){
+  const ym=ymd(today).slice(0,7), {as,de,net}=netWorth();
+  if(state.assets.length&&state.netHist[ym]!==net){state.netHist[ym]=net;saveLocal()}
+  const prev=Object.keys(state.netHist).filter(k=>k<ym).sort().pop();
+  const diff=prev?net-state.netHist[prev]:null;
+  let h=`<div class="board-wrap"><section class="board nw" aria-label="순자산">
+    <div class="cell wide"><span class="lbl">순자산</span><span class="pts num">${won(net)}</span>
+      <span class="meta num">${diff==null?'달마다 기록이 쌓여서 지난달과 비교해 드려요':`지난달보다 ${diff>=0?'늘었어요':'줄었어요'} ${won(Math.abs(diff))}`}</span></div>
+    <div class="cell"><span class="lbl">자산</span><span class="sm num">${won(as)}</span></div>
+    <div class="cell"><span class="lbl">부채</span><span class="sm num">${won(de)}</span></div>
+    ${as?`<div class="bar"><i style="--p:${Math.min(1,de/as)}"></i></div><div class="bar-lbl num"><span>자산 대비 부채</span><span>${Math.round(de/as*100)}%</span></div>`:''}
+  </section></div>`;
+  // 알림: 만기 임박, 예금자보호 한도
+  const al=[];
+  state.assets.forEach(a=>{const mi=matInfo(a);if(mi&&mi.soon)al.push(`<div class="alert${mi.d<0?' warn':' pay'}"><span class="tag">${mi.label}</span><span class="grow"><b>${esc(a.name)}</b><span class="num">${won(a.amount)}</span><span>${AKIND[a.kind]}</span></span></div>`)});
+  const byBank={};state.assets.filter(a=>['cash','deposit','saving'].includes(a.kind)&&a.bank).forEach(a=>{byBank[a.bank]=(byBank[a.bank]||0)+a.amount});
+  Object.keys(byBank).filter(b=>byBank[b]>1e8).forEach(b=>al.push(`<div class="alert warn"><span class="tag">보호 한도</span><span class="grow"><span>${esc(b)} 예금·적금 합계 ${won(byBank[b])}이 예금자보호 한도 1억 원을 넘어요</span></span></div>`));
+  if(al.length)h+=`<div class="alerts">${al.join('')}</div>`;
+  // 이번 달 흐름
+  const fl=state.flow;
+  if(!fl||!fl.set){
+    h+=`<div class="setup"><p>통합통장 흐름을 정하면, 월급에서 생활비 송금과 용돈과 고정지출을 빼고 자산으로 보낼 돈을 계산해 드려요.</p><button type="button" class="link-btn" data-act="flowSet">흐름 정하기</button></div>`;
+  }else{
+    const fc=flowCalc(), done=state.alloc[ym];
+    const row=(k,v,cls='')=>`<div class="fr ${cls}"><span>${k}</span><span class="num">${v}</span></div>`;
+    const missing=state.pays.some(p=>!p.amount);
+    h+=`<section class="day"><div class="sec-h"><h2>이번 달 흐름</h2><button type="button" class="link-btn" data-act="flowSet">흐름 고치기</button></div>
+      <div class="flow">
+        ${row(`월급 ${state.pays.length}건, ${fl.hub?esc(accName(fl.hub))+'으로':''}`,'+'+won(fc.income),'in')}
+        ${row('생활비 통장으로','-'+won(fc.living))}
+        ${(fl.allow||[]).filter(x=>x.amount).map(x=>row(`${esc(x.who)} 용돈`,'-'+won(x.amount))).join('')}
+        ${fc.direct?row('통합통장에서 나가는 고정지출','-'+won(fc.direct)):''}
+        ${row('자산으로 보낼 돈',won(fc.avail),'total'+(fc.avail<0?' bad':''))}
+        ${missing?'<p class="hint">금액이 없는 월급날이 있어요. 월급날 설정에서 금액이나 연봉을 넣어 주세요.</p>':''}
+        ${done?`<div class="verdict ok">${md(parse(done.date))}에 ${won(done.total)}을 자산에 나눠 넣었어요</div><button type="button" class="link-btn" data-act="allocUndo">이번 달 배분 취소</button>`
+          :`<button type="button" class="btn primary" data-act="alloc">자산에 나눠 넣기</button>`}
+      </div></section>`;
+  }
+  // 자산 목록
+  if(!state.assets.length){
+    h+=`<div class="setup"><p>전세보증금, 전세대출, 예금, 적금, 주식을 아래 + 버튼으로 추가하세요. 대출은 부채로 빠져서 순자산이 정확하게 나와요.</p></div>`;
+  }
+  AGROUP.forEach(([g,kinds])=>{
+    const L=state.assets.filter(a=>kinds.includes(a.kind));if(!L.length)return;
+    const sum=L.reduce((s,a)=>s+a.amount,0);
+    h+=`<section class="day"><div class="sec-h"><h2>${g}</h2><span class="num">${kinds.includes('loan')?'-':''}${won(sum)}</span></div><div class="list">${L.map(assetRow).join('')}</div></section>`;
+  });
+  return h;
+}
+function assetSheet(a){
+  const isNew=!a, k0=a?a.kind:'saving', T=ymd(today);
+  const banks=[...new Set([...state.accounts.map(x=>x.name),...state.assets.map(x=>x.bank).filter(Boolean)])];
+  const val=v=>v!=null&&v!==''?(+v).toLocaleString('ko-KR'):'';
+  const link=a&&state.fixed.find(f=>f.assetId===a.id);
+  openSheet(`<h3>${isNew?'자산 추가':'자산 고치기'}</h3>
+    <form id="asf" class="form">
+      <div class="field"><span class="lab">종류</span><div class="chips" data-group="kind">${Object.keys(AKIND).map(k=>`<button type="button" data-v="${k}" aria-pressed="${k===k0}">${AKIND[k]}</button>`).join('')}</div></div>
+      <div class="field"><label for="as-name">이름</label><input id="as-name" maxlength="30" value="${esc(a?.name)}" placeholder="예: 청년도약계좌, 전세대출"></div>
+      <div class="row2"><div class="field"><label for="as-amt" id="as-amt-lab">지금 잔액</label><input id="as-amt" inputmode="numeric" class="num" value="${val(a?.amount)}" placeholder="0"></div>
+        <div class="field" id="g-prin"><label for="as-prin">넣은 원금</label><input id="as-prin" inputmode="numeric" class="num" value="${val(a?.principal)}" placeholder="0"></div></div>
+      <div class="row2"><div class="field" id="g-rate"><label for="as-rate">금리 (연 %)</label><input id="as-rate" inputmode="decimal" value="${a?.rate??''}" placeholder="예: 3.5"></div>
+        <div class="field" id="g-mat"><label for="as-mat">만기일</label><input id="as-mat" type="date" value="${a?.maturity||''}"></div></div>
+      <div class="row2"><div class="field" id="g-mon"><label for="as-mon" id="as-mon-lab">매달 넣는 금액</label><input id="as-mon" inputmode="numeric" class="num" value="${val(a?.monthly)}" placeholder="0"></div>
+        <div class="field"><label for="as-bank">금융회사</label><input id="as-bank" list="as-banks" maxlength="20" value="${esc(a?.bank)}" placeholder="예: 국민은행"><datalist id="as-banks">${banks.map(b=>`<option value="${esc(b)}">`).join('')}</datalist></div></div>
+      <div id="g-loan" class="form">
+        <div class="row2"><div class="field"><label for="as-pday">이자 내는 날</label><select id="as-pday">${dayOpts(a?.payDay||15)}</select></div><div></div></div>
+        <label class="check"><input type="checkbox" id="as-link" ${!a||link?'checked':''}> 월 이자를 공동 고정지출에 자동으로 넣기</label>
+      </div>
+      <div class="field"><span class="lab">구분</span><div class="chips" data-group="scope">${SCOPES.map(sc=>`<button type="button" data-v="${sc}" aria-pressed="${sc===(a?.scope||'공동')}">${sc}</button>`).join('')}</div></div>
+      <p class="err" id="as-err" hidden></p>
+      <div class="actions">${isNew?'':'<button type="button" class="btn danger" id="as-del">삭제</button>'}<button type="button" class="btn" data-x>취소</button><button class="btn primary">${isNew?'추가':'저장'}</button></div>
+    </form>`,sheet=>{
+      const q=id=>sheet.querySelector(id), num=id=>+q(id).value.replace(/[^\d]/g,'')||0;
+      const LAB={loan:'남은 대출금',invest:'지금 평가금액',pension:'지금 평가금액',jeonse:'보증금'};
+      const sync=()=>{const k=chipsSel(sheet,'kind');
+        q('#as-amt-lab').textContent=LAB[k]||'지금 잔액';
+        q('#g-prin').hidden=!(k==='invest'||k==='pension');
+        q('#g-rate').hidden=!['deposit','saving','loan','cash'].includes(k);
+        q('#g-mat').hidden=!['deposit','saving','jeonse','loan','pension'].includes(k);
+        q('#g-mon').hidden=['jeonse','deposit'].includes(k);
+        q('#as-mon-lab').textContent=k==='loan'?'매달 갚는 원금':'매달 넣는 금액';
+        q('#g-loan').hidden=k!=='loan';};
+      bindChips(sheet,sync);sync();
+      ['#as-amt','#as-prin','#as-mon'].forEach(id=>fmtInput(q(id)));
+      const del=q('#as-del');
+      if(del)confirmBtn(del,()=>{state.assets=state.assets.filter(x=>x.id!==a.id);state.fixed=state.fixed.filter(f=>f.assetId!==a.id);save();closeSheet();render();toast('삭제했어요')});
+      q('#asf').addEventListener('submit',e=>{e.preventDefault();
+        const err=q('#as-err');const bad=m=>{err.textContent=m;err.hidden=false};
+        const kind=chipsSel(sheet,'kind'), name=q('#as-name').value.trim(), amount=num('#as-amt');
+        if(!name)return bad('이름을 적어 주세요.');
+        if(!amount)return bad(`${LAB[kind]||'잔액'}을 적어 주세요.`);
+        const rate=parseFloat(q('#as-rate').value.replace(',','.'));
+        const d={kind,name,amount,scope:chipsSel(sheet,'scope')||'공동',bank:q('#as-bank').value.trim(),
+          principal:(kind==='invest'||kind==='pension')?(num('#as-prin')||null):null,
+          rate:q('#g-rate').hidden||isNaN(rate)?null:rate,
+          maturity:q('#g-mat').hidden?'':q('#as-mat').value,
+          monthly:q('#g-mon').hidden?null:(num('#as-mon')||null),
+          payDay:kind==='loan'?+q('#as-pday').value:null};
+        let item=a;
+        if(isNew){item={id:uid(),...d};state.assets.push(item)}else Object.assign(a,d);
+        // 대출 이자 → 고정지출
+        const f0=state.fixed.find(f=>f.assetId===item.id);
+        if(kind==='loan'&&q('#as-link').checked&&d.rate){
+          const fd={name:`${name} 이자`,amount:Math.round(d.amount*d.rate/1200/10)*10,day:d.payDay,acc:(state.flow&&state.flow.hub)||(f0&&f0.acc)||'',scope:d.scope,assetId:item.id};
+          if(f0)Object.assign(f0,fd);else{const nf={id:uid(),...fd};state.fixed.push(nf);const d0=dueIn(nf,today.getFullYear(),today.getMonth());if(d0<today)state.paid[ymd(d0).slice(0,7)+':'+nf.id]=1}
+        }else if(f0)state.fixed=state.fixed.filter(f=>f!==f0);
+        save();closeSheet();render();toast(isNew?`${name}을 추가했어요`:'저장했어요');
+      });
+    });
+}
+function flowSheet(){
+  const fl=state.flow||{}, allow=fl.allow||[{who:'나',amount:0},{who:'와이프',amount:0}];
+  const val=v=>v?(+v).toLocaleString('ko-KR'):'';
+  openSheet(`<h3>통합통장 흐름</h3>
+    <p class="hint">모든 월급이 통합통장에 모이고, 거기서 생활비 통장과 용돈으로 보낸 뒤 남는 돈을 자산으로 보내는 흐름이에요.</p>
+    <form id="flf" class="form">
+      <div class="field"><label for="fl-hub">통합통장</label>${accSelect('fl-hub',fl.hub,false)}</div>
+      <div class="field"><label for="fl-liv">생활비 통장으로 보내는 돈 (월)</label><input id="fl-liv" inputmode="numeric" class="num" value="${val(fl.living)}" placeholder="0"></div>
+      <div class="row2">${allow.map((x,i)=>`<div class="field"><label for="fl-al${i}">${esc(x.who)} 용돈 (월)</label><input id="fl-al${i}" inputmode="numeric" class="num" value="${val(x.amount)}" placeholder="0"></div>`).join('')}</div>
+      <p class="hint">통합통장에서 바로 빠지는 고정지출(대출 이자 등)은 고정지출의 출금 은행을 통합통장으로 정하면 자동으로 빼요.</p>
+      <p class="err" id="fl-err" hidden></p>
+      <div class="actions"><button type="button" class="btn" data-x>취소</button><button class="btn primary">저장</button></div>
+    </form>`,sheet=>{
+      const q=id=>sheet.querySelector(id), num=id=>+q(id).value.replace(/[^\d]/g,'')||0;
+      bindAcc(sheet,'fl-hub');['#fl-liv',...allow.map((_,i)=>'#fl-al'+i)].forEach(id=>fmtInput(q(id)));
+      q('#flf').addEventListener('submit',e=>{e.preventDefault();
+        const h=readAcc(sheet,'fl-hub');if(h.err){const er=q('#fl-err');er.textContent=h.err;er.hidden=false;return}
+        state.flow={set:true,hub:h.id,living:num('#fl-liv'),allow:allow.map((x,i)=>({who:x.who,amount:num('#fl-al'+i)}))};
+        save();closeSheet();render();toast('흐름을 저장했어요');
+      });
+    });
+}
+function allocSheet(){
+  const fc=flowCalc(), ym=ymd(today).slice(0,7);
+  const L=state.assets.filter(a=>a.kind!=='jeonse');
+  if(!L.length){toast('먼저 자산을 추가해 주세요');return}
+  openSheet(`<h3>자산에 나눠 넣기</h3>
+    <p class="hint">이번 달 자산으로 보낼 돈은 ${won(fc.avail)}이에요. 매달 넣는 금액을 정해 둔 자산은 미리 채워져 있어요. 대출에 넣은 돈은 그만큼 갚은 것으로 계산해요.</p>
+    <div class="alloc">${L.map(a=>`<div class="al-row"><label for="al-${a.id}"><span>${esc(a.name)}</span><small>${AKIND[a.kind]}${isDebt(a)?' 상환':''}</small></label><input id="al-${a.id}" inputmode="numeric" class="num" value="${a.monthly?a.monthly.toLocaleString('ko-KR'):''}" placeholder="0"></div>`).join('')}</div>
+    <div class="flow"><div class="fr"><span>넣는 돈 합계</span><span class="num" id="al-sum"></span></div><div class="fr total" id="al-left-row"><span>통합통장에 남는 돈</span><span class="num" id="al-left"></span></div></div>
+    <div class="actions"><button type="button" class="btn" data-x>취소</button><button type="button" class="btn primary" id="al-ok">넣기</button></div>`,sheet=>{
+      const ins=[...sheet.querySelectorAll('.al-row input')];
+      const calc=()=>{const s=ins.reduce((t,i)=>t+(+i.value.replace(/[^\d]/g,'')||0),0);
+        sheet.querySelector('#al-sum').textContent=won(s);sheet.querySelector('#al-left').textContent=won(fc.avail-s);
+        sheet.querySelector('#al-left-row').classList.toggle('bad',fc.avail-s<0);return s};
+      ins.forEach(i=>{fmtInput(i);i.addEventListener('input',calc)});calc();
+      sheet.querySelector('#al-ok').onclick=()=>{
+        const items=[];
+        L.forEach(a=>{const v=+sheet.querySelector('#al-'+a.id).value.replace(/[^\d]/g,'')||0;if(!v)return;
+          if(isDebt(a))a.amount=Math.max(0,a.amount-v);else{a.amount+=v;if(a.kind==='invest'||a.kind==='pension')a.principal=(a.principal||0)+v}
+          items.push({id:a.id,amt:v})});
+        if(!items.length){toast('넣을 금액을 적어 주세요');return}
+        const total=items.reduce((s,x)=>s+x.amt,0);
+        state.alloc[ym]={date:ymd(today),total,items};
+        save();closeSheet();render();toast(`${won(total)}을 자산에 넣었어요`);
+      };
+    });
+}
+function allocUndo(){
+  const ym=ymd(today).slice(0,7), al=state.alloc[ym];if(!al)return;
+  al.items.forEach(x=>{const a=state.assets.find(z=>z.id===x.id);if(!a)return;
+    if(isDebt(a))a.amount+=x.amt;else{a.amount=Math.max(0,a.amount-x.amt);if(a.kind==='invest'||a.kind==='pension')a.principal=Math.max(0,(a.principal||0)-x.amt)}});
+  delete state.alloc[ym];save();render();toast('이번 달 배분을 취소했어요');
 }
 function payListSheet(){
   const pe=payEvents();
@@ -858,7 +1129,8 @@ function dayItems(ds){
   const virt=ds>=T?state.recs.filter(r=>recMatches(r,d)&&!state.skips[r.id+':'+ds]&&!tasks.some(t=>t.recId===r.id)):[];
   const fixed=state.fixed.filter(f=>ymd(dueIn(f,d.getFullYear(),d.getMonth()))===ds).map(f=>({f,paid:!!state.paid[ds.slice(0,7)+':'+f.id]}));
   const pays=state.pays.filter(p=>ymd(payDate(p,d.getFullYear(),d.getMonth()))===ds);
-  return {tasks,virt,fixed,pays,moved};
+  const mats=state.assets.filter(a=>a.maturity===ds);
+  return {tasks,virt,fixed,pays,moved,mats};
 }
 function calendarSheet(keep){
   const T=ymd(today);
@@ -870,13 +1142,14 @@ function calendarSheet(keep){
   for(let k=1;k<=n;k++){
     const ds=`${Y}-${pad(M)}-${pad(k)}`, it=dayItems(ds);
     const nt=it.tasks.length+it.virt.length+it.moved.length, done=it.tasks.filter(t=>t.done).length;
-    const dots=(nt?`<i class="d-task${done===nt?' all':''}"></i>`:'')+(it.fixed.length?'<i class="d-fixed"></i>':'')+(it.pays.length?'<i class="d-pay"></i>':'');
+    const dots=(nt?`<i class="d-task${done===nt?' all':''}"></i>`:'')+(it.fixed.length||it.mats.length?'<i class="d-fixed"></i>':'')+(it.pays.length?'<i class="d-pay"></i>':'');
     const dw=new Date(Y,M-1,k).getDay();
     cells+=`<button class="cal-cell${ds===T?' today':''}${ds===calSel?' sel':''}${dw===0?' sun':dw===6?' sat':''}" data-ds="${ds}"><b class="num">${k}</b><span class="dots">${dots}</span></button>`;
   }
   const sel=dayItems(calSel), sd=parse(calSel);
   const row=(cls,main,side,attr='')=>`<div class="cal-row ${cls}" ${attr}><span class="main">${main}</span><span class="side num">${side}</span></div>`;
   const list=[
+    ...sel.mats.map(a=>row('fixed',`${esc(a.name)} <small>${AKIND[a.kind]} 만기</small>`,won(a.amount))),
     ...sel.pays.map(p=>row('pay',`월급 <small>${esc(p.name)}</small>`,p.amount?won(p.amount):'')),
     ...sel.fixed.map(({f,paid})=>row('fixed',`${esc(f.name)} <small>${f.scope||'공동'} 출금</small><small>${esc(accName(f.acc))}</small>`,(paid?'완료 ':'')+won(f.amount))),
     ...sel.tasks.sort((a,b)=>a.done-b.done||b.w-a.w).map(t=>`<button class="cal-row task${t.done?' done':''}" data-tid="${t.id}"><span class="main">${esc(t.title)}${t.pp?` <small class="pp">미룸 ${t.pp}회</small>`:''}</span><span class="side num">+${t.w}</span></button>`),
@@ -946,7 +1219,10 @@ function fixedSheet(f){
         const a=readAcc(sheet,'f-acc');if(a.err)return bad(a.err);
         const data={name,amount,day:+sheet.querySelector('#f-day').value,acc:a.id,scope:chipsSel(sheet,'scope')||'공동'};
         fixScope=data.scope;
-        if(isNew)state.fixed.push({id:uid(),...data});else Object.assign(f,data);
+        if(isNew){const nf={id:uid(),...data};state.fixed.push(nf);
+          const d0=dueIn(nf,today.getFullYear(),today.getMonth());
+          if(d0<today)state.paid[ymd(d0).slice(0,7)+':'+nf.id]=1;}
+        else Object.assign(f,data);
         save();closeSheet();render();toast(isNew?'고정지출을 추가했어요':'저장했어요');
       });
     });
@@ -1061,12 +1337,16 @@ function accSheet(a){
 }
 function backupSheet(){
   const json=JSON.stringify(state);
-  openSheet(`<h3>백업과 복원</h3>
+  const th=state.theme||'system';
+  openSheet(`<h3>설정</h3>
+    <div class="field"><span class="lab">화면 테마</span><div class="chips" data-group="theme">${[['system','휴대폰 설정 따라가기'],['light','밝게'],['dark','어둡게']].map(([v,n])=>`<button type="button" data-v="${v}" aria-pressed="${v===th}">${n}</button>`).join('')}</div></div>
+    <h3>백업과 복원</h3>
     <p class="hint">데이터는 이 휴대폰 안에만 저장돼요. 앱을 지우거나 휴대폰을 바꾸기 전에 백업을 복사해 메모앱 같은 곳에 붙여 두세요. 예전 웹 버전의 백업도 여기에 붙여 넣으면 그대로 옮겨져요.</p>
     <div class="field"><label for="b-text">수동 백업 데이터</label><textarea id="b-text">${esc(json)}</textarea></div>
     <p class="err" id="b-err" hidden></p>
     <div class="actions"><button class="btn" id="b-copy">복사</button><button class="btn primary" id="b-restore">붙여넣은 내용으로 복원</button></div>
     <div class="actions"><button class="btn" data-x>닫기</button></div>`,sheet=>{
+      bindChips(sheet,g=>{if(g==='theme'){state.theme=chipsSel(sheet,'theme');save();applyTheme();render()}});
       const ta=sheet.querySelector('#b-text');
       sheet.querySelector('#b-copy').onclick=()=>{
         try{navigator.clipboard.writeText(json).then(()=>toast('백업을 복사했어요'),()=>{ta.select();toast('선택된 내용을 직접 복사해 주세요')})}catch(e){ta.select();toast('선택된 내용을 직접 복사해 주세요')}};
@@ -1161,6 +1441,10 @@ function buildNotifs(){
   let pid=4000;
   payEvents().forEach(e=>{const when=at(e.date,8,5);if(when<=now||diffD(e.date,today)>70)return;
     out.push({id:pid++,title:`오늘 ${e.p.name} 월급날`,body:(e.p.amount?won(e.p.amount):'')+(e.p.acc?' → '+accName(e.p.acc):''),when});});
+  let mid=5000;
+  state.assets.forEach(a=>{if(!a.maturity)return;const md0=parse(a.maturity);
+    [...(MATURE[a.kind]||[30]),0].forEach(n=>{const when=at(addD(md0,-n),9,0);if(when<=now||diffD(when,today)>70)return;
+      out.push({id:mid++,title:n?`${a.name} 만기 ${n}일 전`:`오늘 ${a.name} 만기`,body:`${AKIND[a.kind]} ${won(a.amount)}`+(a.kind==='jeonse'&&n?'\n갱신이나 이사 준비를 시작할 때예요':''),when})})});
   return out.sort((a,b)=>a.when-b.when).slice(0,60);
 }
 async function reschedule(){
@@ -1229,17 +1513,21 @@ app.addEventListener('click',e=>{
   else if(act==='mPrev'||act==='mNext'){const cur=bookMonth||ymd(today).slice(0,7);const[y,m]=cur.split('-').map(Number);const d=new Date(y,m-1+(act==='mNext'?1:-1),1);bookMonth=ymd(d).slice(0,7);render()}
   else if(act==='editSpend') spendSheet(state.spend.find(x=>x.id===b.dataset.id));
   else if(act==='payList') payListSheet();
+  else if(act==='editAsset') assetSheet(state.assets.find(x=>x.id===b.dataset.id));
+  else if(act==='flowSet') flowSheet();
+  else if(act==='alloc') allocSheet();
+  else if(act==='allocUndo'){if(!b.dataset.sure){b.dataset.sure=1;b.textContent='한 번 더 누르면 취소해요';return}allocUndo()}
   else if(act==='notifPerm'){if(N)N.LocalNotifications.requestPermissions().then(p=>{notifState=p.display==='granted'?'on':'off';render();reschedule();if(notifState==='off')toast('휴대폰 설정 → 앱 → 나의 하루판 → 알림에서 켜 주세요')})}
   else if(act==='clearEx'){
     if(!b.dataset.sure){b.dataset.sure=1;b.textContent='한 번 더 누르면 삭제';return}
     const exRec=new Set(state.recs.filter(r=>r.ex).map(r=>r.id));
     state.tasks=state.tasks.filter(t=>!t.ex&&!exRec.has(t.recId));state.recs=state.recs.filter(r=>!r.ex);
     state.fixed=state.fixed.filter(f=>!f.ex);state.accounts=state.accounts.filter(a=>!a.ex);state.pays=state.pays.filter(p=>!p.ex);
-    state.spend=state.spend.filter(x=>!x.ex);state.paid={};state.hasEx=false;save();render();toast('예시를 지웠어요');
+    state.spend=state.spend.filter(x=>!x.ex);state.assets=state.assets.filter(x=>!x.ex);if(state.flow&&state.flow.ex)state.flow=null;state.alloc={};state.netHist={};state.paid={};state.hasEx=false;save();render();toast('예시를 지웠어요');
   }
 });
 document.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{tab=b.dataset.tab;render();scrollTo(0,0)}));
-document.getElementById('fab').addEventListener('click',()=>tab==='todo'?taskSheet('new'):sub==='book'?spendSheet(null):fixedSheet(null));
+document.getElementById('fab').addEventListener('click',()=>tab==='todo'?taskSheet('new'):sub==='book'?spendSheet(null):sub==='fixed'?fixedSheet(null):assetSheet(null));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSheet()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)return;if(sod(new Date())-today)render()});
 load().then(s=>{state=s;render();setupNative()});
